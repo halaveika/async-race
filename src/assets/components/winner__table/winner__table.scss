@@ -1,0 +1,60 @@
+.winner__table {
+  border-spacing: 0;
+
+}
+
+.winner__thead {
+  background-color: #42b4d6;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  border-spacing: 0;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#t1 {
+width: 80px;
+border-spacing: 0;
+}
+
+#t2 {
+  width: 80px;
+}
+
+#t3 {
+  width: 200px;
+}
+
+
+.winner__sort-wins-btn {
+  width: 100px;
+  cursor: pointer;
+}
+
+.winner__sort-time-btn {
+  width: 200px;
+  cursor: pointer;
+}
+
+.winner__tr th {
+  height: 40px;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+
+.winner__tr svg {
+  height: 30px;
+  width: 80px;
+}
