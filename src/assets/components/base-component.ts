@@ -8,7 +8,7 @@ export class BaseComponent {
 
   render(
     tag: keyof HTMLElementTagNameMap = 'div',
-    styles: string[] = [],
+    styles: string[] = []
   ): BaseComponent {
     const element = new BaseComponent(tag, styles);
     this.element.appendChild(element.element);

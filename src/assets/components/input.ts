@@ -4,7 +4,7 @@ export class Input {
   constructor(
     tag: keyof HTMLElementTagNameMap = 'input',
     styles: string[] = [],
-    type: string,
+    type: string
   ) {
     this.element = <HTMLInputElement>document.createElement(tag);
     this.element.classList.add(...styles);

@@ -145,8 +145,8 @@ export class Controller {
 
   selectCar = (
     selectItem:
-    | { selectBtn: BaseComponent; name: string; color: string; id: number }
-    | undefined,
+      | { selectBtn: BaseComponent; name: string; color: string; id: number }
+      | undefined
   ): void => {
     const updateCarName = <HTMLInputElement>(
       this.store.listeningElements.get('updateCarName')
@@ -230,9 +230,9 @@ export class Controller {
           car.selectBtn.element.classList.remove('disabled');
         }
       });
-      const prevBtn = <HTMLElement> this.store.listeningElements.get('prevBtn');
-      const nextBtn = <HTMLElement> this.store.listeningElements.get('nextBtn');
-      const raceBtn = <HTMLElement> this.store.listeningElements.get('raceBtn');
+      const prevBtn = <HTMLElement>this.store.listeningElements.get('prevBtn');
+      const nextBtn = <HTMLElement>this.store.listeningElements.get('nextBtn');
+      const raceBtn = <HTMLElement>this.store.listeningElements.get('raceBtn');
       const resetBtn = <HTMLElement>(
         this.store.listeningElements.get('resetBtn')
       );
@@ -252,22 +252,23 @@ export class Controller {
   };
 
   startDriving = async (
-    id: number,
+    id: number
   ): Promise<{ id: number; velocity: number; distance: number }> => {
-    const { velocity, distance }: { velocity: number; distance: number } = await this.api.startEngine(id);
+    const { velocity, distance }: { velocity: number; distance: number } =
+      await this.api.startEngine(id);
     return { id, velocity, distance };
   };
 
   startAnimation = async (
     id: number,
     velocity: number,
-    distance: number,
+    distance: number
   ): Promise<{
     success: boolean | Promise<Response>;
     id: number;
     time: number;
   }> => {
-    const carData = <Cars> this.store.CarsDataStore.find((car) => {
+    const carData = <Cars>this.store.CarsDataStore.find((car) => {
       if (car.id === id) {
         return car;
       }
@@ -280,13 +281,15 @@ export class Controller {
     startBtn.classList.toggle('disable', true);
     const time = Math.round(distance / velocity);
     stopBtn.classList.toggle('disable', false);
-    const htmlDistance = Math.floor(this.getDisstanceBetweenElements(car, flag))
-      + flag.offsetWidth;
+    const htmlDistance =
+      Math.floor(this.getDisstanceBetweenElements(car, flag)) +
+      flag.offsetWidth;
     const state = this.animation(car, htmlDistance, time);
     if (state && this.animationStore) {
       this.animationStore.set(id, state);
     }
-    const { success }: { success: boolean | Promise<Response> } = await this.api.getDrive(id);
+    const { success }: { success: boolean | Promise<Response> } =
+      await this.api.getDrive(id);
     if (!success) {
       const frame = this.animationStore.get(id);
       if (frame) {
@@ -298,7 +301,7 @@ export class Controller {
   };
 
   stopDriving = async (id: number): Promise<void> => {
-    const carData = <Cars> this.store.CarsDataStore.find((car) => {
+    const carData = <Cars>this.store.CarsDataStore.find((car) => {
       if (car.id === id) {
         return car;
       }
@@ -320,28 +323,26 @@ export class Controller {
   };
 
   getPositionAtCenter = (element: HTMLElement): { x: number; y: number } => {
-    const {
-      top, left, width, height,
-    } = element.getBoundingClientRect();
+    const { top, left, width, height } = element.getBoundingClientRect();
     return { x: left + width / 2, y: top + height / 2 };
   };
 
   getDisstanceBetweenElements = (
     car: HTMLElement,
-    flag: HTMLElement,
+    flag: HTMLElement
   ): number => {
     const carPosition = this.getPositionAtCenter(car);
     const flagPosition = this.getPositionAtCenter(flag);
     return Math.hypot(
       carPosition.x - flagPosition.x,
-      carPosition.y - flagPosition.y,
+      carPosition.y - flagPosition.y
     );
   };
 
   animation = (
     car: HTMLElement,
     distance: number,
-    animationTime: number,
+    animationTime: number
   ): { requestID: number } => {
     let start: number | null = null;
     let state: { requestID: number };
@@ -365,12 +366,14 @@ export class Controller {
     time: number;
   }> => {
     const startedDriveCars = await Promise.all(
-      this.store.CarsDataStore.map((car) => this.startDriving(car.id)),
+      this.store.CarsDataStore.map((car) => this.startDriving(car.id))
     );
-    const promises = startedDriveCars.map((car) => this.startAnimation(car.id, car.velocity, car.distance));
+    const promises = startedDriveCars.map((car) =>
+      this.startAnimation(car.id, car.velocity, car.distance)
+    );
     const winner = await this.raceAll(
       promises,
-      this.store.CarsDataStore.map((car) => car.id),
+      this.store.CarsDataStore.map((car) => car.id)
     );
     await this.api.saveWinner(winner.id, winner.time);
     this.garage.garageTable.winMessage(<WinnerResp>winner);
@@ -384,7 +387,7 @@ export class Controller {
       id: number;
       time: number;
     }>[],
-    ids: number[],
+    ids: number[]
   ): Promise<{
     success?: boolean | Promise<Response>;
     id: number;
@@ -404,7 +407,7 @@ export class Controller {
       return this.raceAll(restPromises, restIds);
     }
     return {
-      ...(<Cars> this.store.CarsDataStore.find((car) => {
+      ...(<Cars>this.store.CarsDataStore.find((car) => {
         if (car.id === id) {
           return car.id;
         }
@@ -428,7 +431,7 @@ export class Controller {
         winner.car.color,
         winner.car.name,
         winner.wins,
-        winner.time,
+        winner.time
       );
     });
   };
@@ -509,8 +512,8 @@ export class Controller {
   };
 
   raceBtnListener = (): void => {
-    const raceBtn = <HTMLElement> this.store.listeningElements.get('raceBtn');
-    const resetBtn = <HTMLElement> this.store.listeningElements.get('resetBtn');
+    const raceBtn = <HTMLElement>this.store.listeningElements.get('raceBtn');
+    const resetBtn = <HTMLElement>this.store.listeningElements.get('resetBtn');
     raceBtn.onclick = (): void => {
       if (this.store.CarsDataStore.length !== 0) {
         this.header.disableWinners();
@@ -535,18 +538,18 @@ export class Controller {
   };
 
   resetBtnListener = (): void => {
-    const raceBtn = <HTMLElement> this.store.listeningElements.get('raceBtn');
-    const resetBtn = <HTMLElement> this.store.listeningElements.get('resetBtn');
+    const raceBtn = <HTMLElement>this.store.listeningElements.get('raceBtn');
+    const resetBtn = <HTMLElement>this.store.listeningElements.get('resetBtn');
     resetBtn.onclick = (): void => {
       Promise.all(
-        this.store.CarsDataStore.map((car) => this.stopDriving(car.id)),
+        this.store.CarsDataStore.map((car) => this.stopDriving(car.id))
       ).then(() => {
         resetBtn.classList.add('disabled');
         this.store.CarsDataStore.forEach((car) => {
           car.removeBtn.element.classList.remove('disabled');
           car.selectBtn.element.classList.remove('disabled');
-          const nextBtn = <Element> this.store.listeningElements.get('nextBtn');
-          const prevBtn = <Element> this.store.listeningElements.get('prevBtn');
+          const nextBtn = <Element>this.store.listeningElements.get('nextBtn');
+          const prevBtn = <Element>this.store.listeningElements.get('prevBtn');
           nextBtn.classList.remove('disabled');
           prevBtn.classList.remove('disabled');
         });
@@ -592,8 +595,8 @@ export class Controller {
   };
 
   garageTablelisteners = (): void => {
-    const nextBtn = <HTMLElement> this.store.listeningElements.get('nextBtn');
-    const prevBtn = <HTMLElement> this.store.listeningElements.get('prevBtn');
+    const nextBtn = <HTMLElement>this.store.listeningElements.get('nextBtn');
+    const prevBtn = <HTMLElement>this.store.listeningElements.get('prevBtn');
     nextBtn.onclick = (): void => {
       this.renderNextPage();
     };
@@ -622,7 +625,7 @@ export class Controller {
           this.startAnimation(
             moveData.id,
             moveData.velocity,
-            moveData.distance,
+            moveData.distance
           );
         };
         drive();

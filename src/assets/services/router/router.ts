@@ -27,7 +27,8 @@ export class Router {
     return this;
   };
 
-  clearSlashes = (path: string): string => path.toString().replace(/\/$/, '').replace(/^\//, '');
+  clearSlashes = (path: string): string =>
+    path.toString().replace(/\/$/, '').replace(/^\//, '');
 
   getFragment = (): string => {
     let fragment = '';
@@ -39,7 +40,7 @@ export class Router {
   navigate = (path = ''): Router => {
     window.location.href = `${window.location.href.replace(
       /#(.*)$/,
-      '',
+      ''
     )}#${path}`;
     return this;
   };
@@ -50,7 +51,7 @@ export class Router {
     this.current = this.getFragment();
 
     this.routes.some((route) => {
-      const match = <string[]> this.current.match(route.path);
+      const match = <string[]>this.current.match(route.path);
       if (match) {
         match.shift();
         route.cb.apply(this, match as []);

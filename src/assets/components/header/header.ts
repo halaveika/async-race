@@ -22,7 +22,7 @@ export class Header extends BaseComponent {
         this.highlightRout(event);
         window.location.href = `#/${GARAG}`;
       },
-      false,
+      false
     );
     this.toWinnersBtn = new BaseComponent('span', [
       'header__winners-btn',
@@ -36,7 +36,7 @@ export class Header extends BaseComponent {
         this.highlightRout(event);
         window.location.href = `#/${WINNERS}`;
       },
-      false,
+      false
     );
   }
 
@@ -53,6 +53,8 @@ export class Header extends BaseComponent {
 
   disableWinners = (): void => {
     this.toWinnersBtn.element.classList.add('disabled');
-    delay(2500).then(() => this.toWinnersBtn.element.classList.remove('disabled'));
+    delay(2500).then(() =>
+      this.toWinnersBtn.element.classList.remove('disabled')
+    );
   };
 }

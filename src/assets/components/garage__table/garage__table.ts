@@ -60,7 +60,7 @@ export class GarageTable extends BaseComponent {
   };
 
   winMessage = (winner: WinnerResp): void => {
-    const winnerData = <Cars> this.store.CarsDataStore.find((car) => {
+    const winnerData = <Cars>this.store.CarsDataStore.find((car) => {
       if (car.id === winner.id) {
         return car;
       }
